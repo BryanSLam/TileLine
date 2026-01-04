@@ -1,0 +1,12 @@
+.grid {
+  display: inline-block;
+  background-color: var(--bg-board);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.row {
+  display: flex;
+  gap: 0;
+}

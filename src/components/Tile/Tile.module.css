@@ -1,0 +1,31 @@
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  transition: all var(--transition-fast);
+  cursor: grab;
+}
+
+.tile:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.tile.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.tile.placed {
+  cursor: default;
+  box-shadow: none;
+}
+
+.tile.placed:hover {
+  transform: none;
+  box-shadow: none;
+}

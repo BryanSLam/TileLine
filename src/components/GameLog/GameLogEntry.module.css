@@ -1,0 +1,34 @@
+.entry {
+  background-color: var(--bg-primary);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm);
+  border-left: 3px solid var(--color-green);
+}
+
+.entryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.playerName {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.points {
+  font-weight: 700;
+  color: var(--color-green);
+  font-size: 1rem;
+}
+
+.entryDetails {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.move {
+  font-style: italic;
+}

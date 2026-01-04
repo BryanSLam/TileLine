@@ -1,0 +1,36 @@
+:root {
+  /* Tile colors */
+  --color-red: #e63946;
+  --color-orange: #ff6600;
+  --color-yellow: #ffd700;
+  --color-green: #06a77d;
+  --color-blue: #0077b6;
+  --color-purple: #7209b7;
+
+  /* Tile dimensions */
+  --tile-size: 60px;
+  --tile-size-mobile: 50px;
+  --board-gap: 4px;
+  --border-radius: 8px;
+
+  /* UI colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-board: #fafafa;
+  --border-color: #e0e0e0;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+}

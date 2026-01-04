@@ -1,0 +1,47 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background-color: var(--bg-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 2px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.header h1 {
+  color: var(--color-purple);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.restartButton {
+  position: absolute;
+  right: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--color-red);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+}
+
+.restartButton:hover {
+  background-color: #c92a36;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-hover);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}

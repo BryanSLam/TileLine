@@ -1,0 +1,54 @@
+.cell {
+  width: var(--tile-size);
+  height: var(--tile-size);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-board);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  cursor: default;
+}
+
+.cell.clickable {
+  cursor: pointer;
+}
+
+.cell.validPlacement {
+  background-color: rgba(6, 167, 125, 0.2);
+  border-color: var(--color-green);
+  border-width: 2px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    background-color: rgba(6, 167, 125, 0.1);
+  }
+  50% {
+    background-color: rgba(6, 167, 125, 0.3);
+  }
+}
+
+.cell.validPlacement:hover {
+  background-color: rgba(6, 167, 125, 0.4);
+  transform: scale(1.05);
+}
+
+.cell.pending {
+  background-color: rgba(252, 191, 73, 0.2);
+  border-color: var(--color-yellow);
+  border-width: 2px;
+  cursor: pointer;
+}
+
+.cell.pending:hover {
+  background-color: rgba(252, 191, 73, 0.3);
+}
+
+@media (max-width: 768px) {
+  .cell {
+    width: var(--tile-size-mobile);
+    height: var(--tile-size-mobile);
+  }
+}

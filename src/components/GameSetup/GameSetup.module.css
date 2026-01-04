@@ -1,0 +1,130 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: var(--spacing-lg);
+}
+
+.setupCard {
+  background-color: var(--bg-primary);
+  padding: var(--spacing-xl);
+  border-radius: calc(var(--border-radius) * 2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  width: 100%;
+}
+
+.setupCard h2 {
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-purple);
+  text-align: center;
+}
+
+.resumeSection {
+  background-color: rgba(6, 167, 125, 0.1);
+  border: 2px solid var(--color-green);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.resumeButton {
+  width: 100%;
+  padding: var(--spacing-md);
+  background-color: var(--color-green);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-xs);
+}
+
+.resumeButton:hover {
+  background-color: #058a6e;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.resumeText {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.buttonGroup {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.button, .buttonActive {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 2px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.button:hover {
+  border-color: var(--color-purple);
+  background-color: var(--bg-primary);
+}
+
+.buttonActive {
+  border-color: var(--color-purple);
+  background-color: var(--color-purple);
+  color: white;
+}
+
+.playerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background-color: var(--bg-secondary);
+  border-radius: var(--border-radius);
+}
+
+.playerLabel {
+  font-weight: 500;
+  min-width: 80px;
+}
+
+.playerRow .buttonGroup {
+  flex: 0 0 auto;
+}
+
+.startButton {
+  width: 100%;
+  padding: var(--spacing-md);
+  background-color: var(--color-green);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: var(--spacing-lg);
+}
+
+.startButton:hover {
+  background-color: #058a6e;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}

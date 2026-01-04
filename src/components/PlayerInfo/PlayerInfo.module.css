@@ -1,0 +1,66 @@
+.container {
+  background-color: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  transition: all var(--transition-normal);
+}
+
+.container.active {
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px rgba(6, 167, 125, 0.2);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-sm);
+}
+
+.name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.badge {
+  background-color: var(--color-purple);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.stats {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.stat {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.statLabel {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.statValue {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.activeIndicator {
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-xs);
+  background-color: var(--color-green);
+  color: white;
+  text-align: center;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
