@@ -11,7 +11,10 @@ export class AdjacencyValidator {
    * Validate that all pending placements form a single continuous line
    * Either all in same row (horizontal) or all in same column (vertical)
    */
-  static validatePlacements(placements: PendingPlacement[]): AdjacencyValidationResult {
+  static validatePlacements(
+    placements: PendingPlacement[],
+    boardTiles?: Map<string, any>
+  ): AdjacencyValidationResult {
     if (placements.length === 0) {
       return { isValid: false, error: 'No tiles to place' };
     }
@@ -39,28 +42,63 @@ export class AdjacencyValidator {
 
     // Check that placements are continuous (no gaps)
     if (allSameRow) {
-      return this.validateContinuous(cols, 'horizontal');
+      const row = rows[0];
+      return this.validateContinuous(placements, row, 'row', boardTiles);
     } else {
-      return this.validateContinuous(rows, 'vertical');
+      const col = cols[0];
+      return this.validateContinuous(placements, col, 'col', boardTiles);
     }
   }
 
   /**
-   * Validate that coordinates are continuous (no gaps between placements)
+   * Validate that placements are continuous (no gaps unless filled by existing tiles)
    */
   private static validateContinuous(
-    coords: number[],
-    _direction: 'horizontal' | 'vertical'
+    placements: PendingPlacement[],
+    fixedCoord: number,
+    fixedAxis: 'row' | 'col',
+    boardTiles?: Map<string, any>
   ): AdjacencyValidationResult {
-    // Check if there are gaps in the sequence
-    // Note: This allows for existing tiles to fill gaps on the actual board
-    // The continuous check here just ensures pending placements don't have gaps between them
+    // Get the varying coordinates
+    const coords = placements.map(p =>
+      fixedAxis === 'row' ? p.position.col : p.position.row
+    );
+
+    // Check for duplicates
     const uniqueCoords = new Set(coords);
     if (uniqueCoords.size !== coords.length) {
       return {
         isValid: false,
         error: 'Cannot place multiple tiles at the same position'
       };
+    }
+
+    // If no board state provided, can't check for gaps (used for first move validation)
+    if (!boardTiles) {
+      return { isValid: true };
+    }
+
+    // Sort coordinates to find range
+    const sortedCoords = [...coords].sort((a, b) => a - b);
+    const min = sortedCoords[0];
+    const max = sortedCoords[sortedCoords.length - 1];
+
+    // Check that every position between min and max is filled
+    // (either by pending placement or existing tile)
+    for (let coord = min; coord <= max; coord++) {
+      const position = fixedAxis === 'row'
+        ? { row: fixedCoord, col: coord }
+        : { row: coord, col: fixedCoord };
+
+      const isPending = coords.includes(coord);
+      const isExisting = BoardModel.isOccupied(boardTiles, position);
+
+      if (!isPending && !isExisting) {
+        return {
+          isValid: false,
+          error: 'All placed tiles must form a continuous line with no gaps'
+        };
+      }
     }
 
     return { isValid: true };

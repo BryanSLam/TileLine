@@ -33,7 +33,7 @@ export class PlacementValidator {
     }
 
     // Validate adjacency (all placements form single line)
-    const adjacencyCheck = AdjacencyValidator.validatePlacements(pendingPlacements);
+    const adjacencyCheck = AdjacencyValidator.validatePlacements(pendingPlacements, board.tiles);
     if (!adjacencyCheck.isValid) {
       return adjacencyCheck;
     }
