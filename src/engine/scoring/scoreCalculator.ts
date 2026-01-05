@@ -32,9 +32,6 @@ export class ScoreCalculator {
     const scoredLines: ScoredLine[] = [];
     const scoredLineKeys = new Set<string>();
 
-    // Determine primary direction of placements
-    const placementDirection = this.getPlacementDirection(placements);
-
     for (const placement of placements) {
       // Score horizontal line
       const horizontalLine = this.getLineAtPosition(
@@ -85,20 +82,6 @@ export class ScoreCalculator {
       lines: scoredLines,
       hasFullLine
     };
-  }
-
-  /**
-   * Determine if placements are primarily horizontal or vertical
-   */
-  private static getPlacementDirection(
-    placements: PendingPlacement[]
-  ): 'horizontal' | 'vertical' | null {
-    if (placements.length <= 1) return null;
-
-    const rows = placements.map(p => p.position.row);
-    const allSameRow = rows.every(r => r === rows[0]);
-
-    return allSameRow ? 'horizontal' : 'vertical';
   }
 
   /**

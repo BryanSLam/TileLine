@@ -7,7 +7,7 @@ interface GameLogEntryProps {
   moveNumber: number;
 }
 
-export function GameLogEntry({ entry, player, moveNumber }: GameLogEntryProps) {
+export function GameLogEntry({ entry, player }: GameLogEntryProps) {
   // Format tile placements for display - show all tiles
   const tileDescription = entry.placements.length === 1
     ? formatTile(entry.placements[0])

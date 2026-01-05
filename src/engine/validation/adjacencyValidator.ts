@@ -50,13 +50,8 @@ export class AdjacencyValidator {
    */
   private static validateContinuous(
     coords: number[],
-    direction: 'horizontal' | 'vertical'
+    _direction: 'horizontal' | 'vertical'
   ): AdjacencyValidationResult {
-    const sorted = [...coords].sort((a, b) => a - b);
-    const min = sorted[0];
-    const max = sorted[sorted.length - 1];
-    const expectedLength = max - min + 1;
-
     // Check if there are gaps in the sequence
     // Note: This allows for existing tiles to fill gaps on the actual board
     // The continuous check here just ensures pending placements don't have gaps between them
