@@ -4,6 +4,14 @@ A tile-matching strategy game built with React and TypeScript.
 
 > **Note**: TileLine is an independent implementation inspired by the tile-matching mechanics of Qwirkle by Susan McKinley Ross, published by MindWare. This is a personal project created for educational purposes and is not affiliated with or endorsed by MindWare. Qwirkle is a registered trademark of MindWare.
 
+## 🎮 Play Now
+
+**[Play TileLine →](https://tileline.vercel.app)**
+
+Experience the game live in your browser. No installation required!
+
+---
+
 ## 🎮 Features
 
 ### Complete Gameplay

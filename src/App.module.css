@@ -45,3 +45,20 @@
   display: flex;
   overflow: hidden;
 }
+
+@media (max-width: 480px) {
+  .header {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .header h1 {
+    font-size: 1.2rem; /* Reduce from 1.5rem */
+  }
+
+  .restartButton {
+    right: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.8rem;
+    min-height: 36px; /* Smaller but still tappable */
+  }
+}

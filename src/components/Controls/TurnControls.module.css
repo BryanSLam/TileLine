@@ -102,3 +102,35 @@
   font-size: 0.9rem;
   text-align: center;
 }
+
+@media (max-width: 480px) {
+  .container {
+    padding: var(--spacing-sm); /* Reduce padding */
+  }
+
+  .hintsToggle {
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .toggleText {
+    font-size: 0.85rem;
+  }
+
+  .checkbox {
+    width: 24px; /* Increase from 20px */
+    height: 24px;
+    min-width: 24px; /* Prevent shrinking */
+  }
+
+  .buttons {
+    gap: var(--spacing-xs);
+  }
+
+  .cancelButton,
+  .confirmButton {
+    padding: 14px var(--spacing-md); /* Ensure 48px height minimum */
+    font-size: 0.95rem;
+    min-height: 48px; /* Touch-friendly minimum */
+  }
+}

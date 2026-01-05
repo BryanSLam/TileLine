@@ -31,3 +31,14 @@
   padding: var(--spacing-md);
   margin: 0;
 }
+
+@media (max-width: 480px) {
+  .logEntries {
+    max-height: 150px; /* Reduce from 250px */
+    font-size: 0.85rem;
+  }
+
+  .header h3 {
+    font-size: 0.95rem;
+  }
+}

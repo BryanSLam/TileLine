@@ -84,3 +84,24 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 480px) {
+  .sidebar {
+    max-height: 300px; /* Increase from 200px */
+    padding: var(--spacing-sm); /* Reduce padding */
+  }
+
+  .sidebarHeader h2 {
+    font-size: 1.1rem; /* Reduce from default */
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .playerList {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .gameInfo {
+    padding: var(--spacing-sm); /* Reduce padding */
+    font-size: 0.9rem;
+  }
+}

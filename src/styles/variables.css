@@ -34,3 +34,17 @@
   --transition-fast: 150ms ease;
   --transition-normal: 250ms ease;
 }
+
+/* Mobile-specific values */
+@media (max-width: 480px) {
+  :root {
+    --spacing-xs: 3px;  /* Tighter spacing */
+    --spacing-sm: 6px;
+    --spacing-md: 12px;
+    --spacing-lg: 18px;
+    --spacing-xl: 24px;
+
+    /* Ensure mobile tile size is respected */
+    --tile-size: var(--tile-size-mobile);
+  }
+}
