@@ -10,7 +10,8 @@
       "WebFetch(domain:www.gamedeveloper.com)",
       "Bash(cat:*)",
       "Bash(npm run build)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "WebFetch(domain:www.wikihow.com)"
     ]
   }
 }

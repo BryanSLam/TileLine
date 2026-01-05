@@ -19,6 +19,8 @@ interface GameStore {
   gameState: GameState | null;
   showLineCompleteAnimation: boolean;
   selectedTile: Tile | null;
+  exchangeMode: boolean;
+  selectedTileIdsForExchange: string[];
 
   // Setup actions
   initializeGame: (playerConfigs: PlayerConfig[]) => void;
@@ -31,6 +33,12 @@ interface GameStore {
   removePendingPlacement: (position: BoardPosition) => void;
   clearPendingPlacements: () => void;
   commitTurn: () => boolean;
+  exchangeTiles: (tileIds: string[]) => boolean;
+
+  // Exchange mode actions
+  setExchangeMode: (enabled: boolean) => void;
+  toggleTileForExchange: (tileId: string) => void;
+  clearExchangeSelection: () => void;
 
   // UI actions
   hideLineCompleteAnimation: () => void;
@@ -47,6 +55,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   gameState: null,
   showLineCompleteAnimation: false,
   selectedTile: null,
+  exchangeMode: false,
+  selectedTileIdsForExchange: [],
 
   // Initialize a new game
   initializeGame: (playerConfigs: PlayerConfig[]) => {
@@ -238,10 +248,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
       isActive: true
     };
 
-    // Check for game over
+    // Check for game over (bag empty AND current player emptied their hand)
     const isGameOver =
       remaining.length === 0 &&
       newPlayers[gameState.currentPlayerIndex].hand.length === 0;
+
+    // Add +6 bonus for going out (emptying hand when bag is empty)
+    if (isGameOver) {
+      newPlayers[gameState.currentPlayerIndex].score += 6;
+    }
 
     set({
       gameState: {
@@ -277,6 +292,114 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
 
     return true;
+  },
+
+  // Exchange tiles - return tiles to bag and draw new ones
+  exchangeTiles: (tileIds: string[]) => {
+    const { gameState } = get();
+    if (!gameState || tileIds.length === 0) {
+      return false;
+    }
+
+    // Can't exchange if there are pending placements
+    if (gameState.pendingPlacements.length > 0) {
+      console.error('Cannot exchange tiles with pending placements');
+      return false;
+    }
+
+    // Can't exchange if bag doesn't have enough tiles
+    if (gameState.tileBag.length < tileIds.length) {
+      console.error('Not enough tiles in bag to exchange');
+      return false;
+    }
+
+    const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+
+    // Find and remove tiles from hand
+    const tilesToExchange: Tile[] = [];
+    const newHand = currentPlayer.hand.filter(tile => {
+      if (tileIds.includes(tile.id)) {
+        tilesToExchange.push(tile);
+        return false; // Remove from hand
+      }
+      return true; // Keep in hand
+    });
+
+    // Verify all tiles were found
+    if (tilesToExchange.length !== tileIds.length) {
+      console.error('Some tiles to exchange were not found in hand');
+      return false;
+    }
+
+    // Draw new tiles from bag
+    const { drawn, remaining } = TileFactory.drawTiles(gameState.tileBag, tileIds.length);
+    newHand.push(...drawn);
+
+    // Return exchanged tiles to bag
+    const newTileBag = [...remaining, ...tilesToExchange];
+
+    // Update players
+    const newPlayers = [...gameState.players];
+    newPlayers[gameState.currentPlayerIndex] = {
+      ...currentPlayer,
+      hand: newHand,
+      isActive: false
+    };
+
+    // Move to next player
+    const nextPlayerIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
+    newPlayers[nextPlayerIndex] = {
+      ...newPlayers[nextPlayerIndex],
+      isActive: true
+    };
+
+    set({
+      gameState: {
+        ...gameState,
+        players: newPlayers,
+        currentPlayerIndex: nextPlayerIndex,
+        tileBag: newTileBag,
+        lastScoredPoints: 0,
+        gameHistory: [
+          ...gameState.gameHistory,
+          {
+            playerIndex: gameState.currentPlayerIndex,
+            placements: [], // No placements, just exchange
+            pointsScored: 0,
+            tilesDrawn: drawn
+          }
+        ]
+      },
+      selectedTile: null
+    });
+
+    return true;
+  },
+
+  // Set exchange mode on/off
+  setExchangeMode: (enabled: boolean) => {
+    set({
+      exchangeMode: enabled,
+      selectedTileIdsForExchange: enabled ? [] : [],
+      selectedTile: enabled ? null : get().selectedTile
+    });
+  },
+
+  // Toggle a tile for exchange
+  toggleTileForExchange: (tileId: string) => {
+    const { selectedTileIdsForExchange } = get();
+    const isSelected = selectedTileIdsForExchange.includes(tileId);
+
+    set({
+      selectedTileIdsForExchange: isSelected
+        ? selectedTileIdsForExchange.filter(id => id !== tileId)
+        : [...selectedTileIdsForExchange, tileId]
+    });
+  },
+
+  // Clear exchange selection
+  clearExchangeSelection: () => {
+    set({ selectedTileIdsForExchange: [] });
   },
 
   // Hide line complete animation

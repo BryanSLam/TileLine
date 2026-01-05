@@ -23,13 +23,16 @@ export class GreedyAI {
 
   /**
    * Execute AI turn with a delay to simulate thinking
+   * If no valid moves, exchange all tiles
    */
   static async executeAITurn(
     board: BoardState,
     hand: Tile[],
+    tileBagSize: number,
     onMove: (placements: PendingPlacement[]) => void,
+    onExchange: (tileIds: string[]) => void,
     thinkingDelay: number = 1000
-  ): Promise<boolean> {
+  ): Promise<void> {
     // Simulate thinking time
     await this.delay(thinkingDelay);
 
@@ -37,13 +40,19 @@ export class GreedyAI {
     const move = this.selectBestMove(board, hand);
 
     if (!move) {
-      // No valid moves available
-      return false;
+      // No valid moves available - exchange tiles if possible
+      if (tileBagSize >= hand.length && hand.length > 0) {
+        console.log('AI exchanging all tiles (no valid moves)');
+        const tileIds = hand.map(t => t.id);
+        onExchange(tileIds);
+      } else {
+        console.warn('AI has no valid moves and cannot exchange tiles');
+      }
+      return;
     }
 
     // Execute the move
     onMove(move.placements);
-    return true;
   }
 
   /**

@@ -37,6 +37,7 @@ export function useAITurn() {
     GreedyAI.executeAITurn(
       gameState.board,
       currentPlayer.hand,
+      gameState.tileBag.length,
       (placements) => {
         // Add placements to pending
         placements.forEach(placement => {
@@ -48,6 +49,16 @@ export function useAITurn() {
           const success = commitTurn();
           if (!success) {
             console.error('AI failed to commit turn');
+          }
+          isProcessingRef.current = false;
+        }, 300);
+      },
+      (tileIds) => {
+        // Exchange tiles callback
+        setTimeout(() => {
+          const success = useGameStore.getState().exchangeTiles(tileIds);
+          if (!success) {
+            console.error('AI failed to exchange tiles');
           }
           isProcessingRef.current = false;
         }, 300);

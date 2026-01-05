@@ -68,6 +68,7 @@
   font-weight: 600;
   font-size: 1rem;
   transition: all var(--transition-fast);
+  cursor: pointer;
 }
 
 .cancelButton {
@@ -81,6 +82,11 @@
   border-color: var(--text-secondary);
 }
 
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .confirmButton {
   background-color: var(--color-green);
   color: white;
@@ -90,6 +96,59 @@
   background-color: #058a6e;
   transform: translateY(-2px);
   box-shadow: var(--shadow-hover);
+}
+
+.confirmButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.exchangeButton {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: var(--color-orange);
+  color: white;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.exchangeButton:hover:not(:disabled) {
+  background-color: #e07b39;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.exchangeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.exchangeInfo {
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  border: 2px solid var(--color-orange);
+}
+
+.exchangeText {
+  margin: 0 0 var(--spacing-xs) 0;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.exchangeHelp {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-style: italic;
 }
 
 .errorMessage {
@@ -128,9 +187,23 @@
   }
 
   .cancelButton,
-  .confirmButton {
+  .confirmButton,
+  .exchangeButton {
     padding: 14px var(--spacing-md); /* Ensure 48px height minimum */
     font-size: 0.95rem;
     min-height: 48px; /* Touch-friendly minimum */
+  }
+
+  .exchangeInfo {
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .exchangeText {
+    font-size: 0.95rem;
+  }
+
+  .exchangeHelp {
+    font-size: 0.85rem;
   }
 }

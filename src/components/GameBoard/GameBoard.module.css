@@ -36,9 +36,15 @@
 }
 
 .scrollContent {
-  min-width: 100%;
-  min-height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* Add padding around the board so there's scrollable space on all sides */
+  padding: 100px;
+  /* Remove min-width/min-height to prevent constraining */
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .scrollContent {
+    /* Reduce padding on mobile for more efficient use of space */
+    padding: 50px;
+  }
 }
