@@ -85,14 +85,50 @@
   }
 }
 
+/* Hide collapse toggle on desktop */
+.collapseToggle {
+  display: none;
+}
+
 @media (max-width: 480px) {
+  .container {
+    /* Use dynamic viewport height instead of 100vh */
+    height: 100dvh;
+    height: -webkit-fill-available; /* Safari fallback */
+  }
+
   .sidebar {
-    max-height: 300px; /* Increase from 200px */
-    padding: var(--spacing-sm); /* Reduce padding */
+    max-height: 250px; /* When expanded */
+    padding: var(--spacing-sm);
+    transition: max-height 0.3s ease;
+  }
+
+  .sidebar.collapsed {
+    max-height: 40px; /* Just enough for toggle button */
+    overflow: hidden;
+  }
+
+  .collapseToggle {
+    display: flex; /* Only show on mobile */
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: var(--spacing-sm);
+    background-color: var(--bg-secondary);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-bottom: var(--spacing-xs);
+    transition: background-color var(--transition-fast);
+  }
+
+  .collapseToggle:hover {
+    background-color: var(--border-color);
   }
 
   .sidebarHeader h2 {
-    font-size: 1.1rem; /* Reduce from default */
+    font-size: 1.1rem;
     margin-bottom: var(--spacing-xs);
   }
 
@@ -101,7 +137,16 @@
   }
 
   .gameInfo {
-    padding: var(--spacing-sm); /* Reduce padding */
+    padding: var(--spacing-sm);
     font-size: 0.9rem;
+  }
+
+  .bottomPanel {
+    flex-shrink: 0;
+  }
+
+  .mainArea {
+    min-height: 0;
+    overflow: hidden;
   }
 }

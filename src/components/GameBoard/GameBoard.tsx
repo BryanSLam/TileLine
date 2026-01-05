@@ -12,7 +12,9 @@ export function GameBoard() {
   return (
     <div className={styles.container}>
       <div className={styles.scrollArea}>
-        <BoardGrid board={gameState.board} pendingPlacements={gameState.pendingPlacements} />
+        <div className={styles.scrollContent}>
+          <BoardGrid board={gameState.board} pendingPlacements={gameState.pendingPlacements} />
+        </div>
       </div>
     </div>
   );

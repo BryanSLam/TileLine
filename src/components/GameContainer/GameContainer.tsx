@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useGameStore } from '../../store/gameStore';
 import { useAITurn } from '../../hooks/useAITurn';
 import { useGamePersistence } from '../../hooks/useGamePersistence';
@@ -12,6 +13,7 @@ import { GamePhase } from '../../types';
 import styles from './GameContainer.module.css';
 
 export function GameContainer() {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const gameState = useGameStore(state => state.gameState);
   const showLineCompleteAnimation = useGameStore(state => state.showLineCompleteAnimation);
   const hideLineCompleteAnimation = useGameStore(state => state.hideLineCompleteAnimation);
@@ -30,28 +32,40 @@ export function GameContainer() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.sidebar}>
-        <div className={styles.sidebarHeader}>
-          <h2>Players</h2>
-        </div>
+      <div className={`${styles.sidebar} ${sidebarCollapsed ? styles.collapsed : ''}`}>
+        <button
+          className={styles.collapseToggle}
+          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+          aria-label={sidebarCollapsed ? "Show players and log" : "Hide players and log"}
+        >
+          {sidebarCollapsed ? '▼' : '▲'}
+        </button>
 
-        <div className={styles.playerList}>
-          {gameState.players.map(player => (
-            <PlayerInfo key={player.id} player={player} />
-          ))}
-        </div>
+        {!sidebarCollapsed && (
+          <>
+            <div className={styles.sidebarHeader}>
+              <h2>Players</h2>
+            </div>
 
-        <GameLog
-          history={gameState.gameHistory}
-          players={gameState.players}
-        />
+            <div className={styles.playerList}>
+              {gameState.players.map(player => (
+                <PlayerInfo key={player.id} player={player} />
+              ))}
+            </div>
 
-        <div className={styles.gameInfo}>
-          <div className={styles.infoItem}>
-            <span>Tiles Remaining:</span>
-            <strong>{gameState.tileBag.length}</strong>
-          </div>
-        </div>
+            <GameLog
+              history={gameState.gameHistory}
+              players={gameState.players}
+            />
+
+            <div className={styles.gameInfo}>
+              <div className={styles.infoItem}>
+                <span>Tiles Remaining:</span>
+                <strong>{gameState.tileBag.length}</strong>
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       <div className={styles.mainArea}>
