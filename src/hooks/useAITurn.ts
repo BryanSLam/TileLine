@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useGameStore } from '../store/gameStore';
 import { GreedyAI } from '../engine/ai/greedyAI';
+import { GamePhase } from '../types/GameState';
 
 export function useAITurn() {
   const gameState = useGameStore(state => state.gameState);
@@ -26,7 +27,8 @@ export function useAITurn() {
     if (
       currentPlayer.type !== 'ai' ||
       gameState.pendingPlacements.length > 0 ||
-      isProcessingRef.current
+      isProcessingRef.current ||
+      gameState.phase === GamePhase.GAME_OVER
     ) {
       return;
     }
