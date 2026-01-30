@@ -1,0 +1,33 @@
+{
+  "feature": "feature/feature-name",
+  "phase": "planning",
+  "architect_baseline_commit": "",
+  "agents": {
+    "rules-engine": {
+      "worktree": "../qwirkle-worktrees/rules-engine",
+      "status": "idle",
+      "working_on": [],
+      "last_sync": ""
+    },
+    "ui-specialist": {
+      "worktree": "../qwirkle-worktrees/ui-specialist",
+      "status": "idle",
+      "working_on": [],
+      "last_sync": ""
+    },
+    "blackbox-verifier": {
+      "worktree": "../qwirkle-worktrees/verifier",
+      "status": "idle",
+      "working_on": [],
+      "last_sync": ""
+    }
+  },
+  "shared_files": {
+    "locked_by_architect": [
+      "src/types/GameState.ts",
+      "src/store/gameStore.ts"
+    ],
+    "integration_pending": []
+  },
+  "notes": "Template for multi-instance collaboration. Copy and customize for each feature."
+}

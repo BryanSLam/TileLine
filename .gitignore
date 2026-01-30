@@ -72,3 +72,6 @@ next-env.d.ts
 
 # OS files
 Thumbs.db
+
+# Multi-instance coordination (instance-specific files, not the template)
+.claude/coordination.json
