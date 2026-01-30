@@ -72,7 +72,7 @@ export function GameContainer() {
         <GameBoard />
 
         <div className={styles.bottomPanel}>
-          {isHumanTurn ? (
+          {isGameOver ? null : isHumanTurn ? (
             <>
               <PlayerHand
                 tiles={currentPlayer.hand}
