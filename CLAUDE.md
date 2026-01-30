@@ -17,6 +17,22 @@ npm run test -- --ui           # Run tests with UI
 npm run test -- path/to/file   # Run specific test file
 ```
 
+## Multi-Instance Development with Worktrees
+
+When multiple Claude Code instances need to work on the same feature simultaneously, use git worktrees to prevent conflicts. See `.claude/MULTI-INSTANCE-WORKFLOW.md` for detailed workflow.
+
+**Quick reference:**
+- Architect creates feature branch, pushes to origin, then creates worktrees
+- Each worktree has its own local branch tracking the same remote feature branch
+- Command: `git worktree add <path> -b <local-branch> origin/<feature-branch>`
+- Agents pull frequently: `git pull`
+- Agents push with: `git push origin HEAD:<feature-branch>`
+- Cleanup worktrees after feature completion
+
+**Worktree locations:**
+- Main workspace: `/Users/blam/git/test/qwirkle/` (architect)
+- Agent worktrees: `/Users/blam/git/test/qwirkle-worktrees/{agent-name}/`
+
 ## Architecture Overview
 
 ### State Management Pattern
