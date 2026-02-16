@@ -67,7 +67,12 @@ export class ScoreCalculator {
     if (scoredLines.length === 0 && placements.length === 1) {
       // First move, single tile: 1 point
       scoredLines.push({
-        tiles: [{ ...placements[0].tile, position: placements[0].position }],
+        tiles: [{
+          ...placements[0].tile,
+          position: placements[0].position,
+          placedByPlayerIndex: -1,
+          turnPlaced: -1
+        }],
         points: 1,
         isFullLine: false,
         direction: 'horizontal'
@@ -136,7 +141,9 @@ export class ScoreCalculator {
     for (const placement of placements) {
       const placedTile: PlacedTile = {
         ...placement.tile,
-        position: placement.position
+        position: placement.position,
+        placedByPlayerIndex: -1,
+        turnPlaced: -1
       };
       tempBoard.set(BoardModel.positionToKey(placement.position), placedTile);
     }

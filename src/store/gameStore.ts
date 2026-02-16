@@ -48,6 +48,7 @@ interface GameStore {
   isValidMove: () => boolean;
   canCommitTurn: () => boolean;
   getValidPositions: () => BoardPosition[];
+  getLastMoveForPlayer: (playerIndex: number) => PlacedTile[];
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -218,7 +219,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
     for (const placement of gameState.pendingPlacements) {
       const placedTile: PlacedTile = {
         ...placement.tile,
-        position: placement.position
+        position: placement.position,
+        placedByPlayerIndex: gameState.currentPlayerIndex,
+        turnPlaced: gameState.turnNumber
       };
       newBoardTiles.set(BoardModel.positionToKey(placement.position), placedTile);
       newBounds = BoardModel.updateBounds(newBounds, placement.position);
@@ -277,12 +280,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
             playerIndex: gameState.currentPlayerIndex,
             placements: gameState.pendingPlacements.map(p => ({
               ...p.tile,
-              position: p.position
+              position: p.position,
+              placedByPlayerIndex: gameState.currentPlayerIndex,
+              turnPlaced: gameState.turnNumber
             })),
             pointsScored: scoringResult.totalPoints,
             tilesDrawn: drawn
           }
-        ]
+        ],
+        turnNumber: gameState.turnNumber + 1
       }
     });
 
@@ -537,5 +543,18 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
 
     return validPositions;
+  },
+
+  // Get all tiles placed by a specific player in their last move
+  getLastMoveForPlayer: (playerIndex: number) => {
+    const { gameState } = get();
+    if (!gameState) return [];
+
+    // Find the most recent turn for this player
+    const playerHistory = gameState.gameHistory
+      .filter(entry => entry.playerIndex === playerIndex)
+      .slice(-1)[0]; // Get last entry
+
+    return playerHistory ? playerHistory.placements : [];
   }
 }));

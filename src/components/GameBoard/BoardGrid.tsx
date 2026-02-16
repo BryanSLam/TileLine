@@ -54,7 +54,7 @@ export function BoardGrid({ board, pendingPlacements }: BoardGridProps) {
         <BoardCell
           key={key}
           position={position}
-          tile={pending ? { ...pending.tile, position } : placedTile}
+          tile={pending ? { ...pending.tile, position, placedByPlayerIndex: -1, turnPlaced: -1 } : placedTile}
           isPending={!!pending}
           isValidPlacement={isValid}
         />

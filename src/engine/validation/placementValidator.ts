@@ -77,9 +77,12 @@ export class PlacementValidator {
       }
 
       // Create placed tiles from placements
+      // Using -1 as placeholder values for validation (not yet committed)
       const tiles: PlacedTile[] = placements.map(p => ({
         ...p.tile,
-        position: p.position
+        position: p.position,
+        placedByPlayerIndex: -1,
+        turnPlaced: -1
       }));
 
       return LineValidator.validateLine(tiles);
@@ -118,7 +121,9 @@ export class PlacementValidator {
     for (const placement of placements) {
       const placedTile: PlacedTile = {
         ...placement.tile,
-        position: placement.position
+        position: placement.position,
+        placedByPlayerIndex: -1,
+        turnPlaced: -1
       };
       tempBoard.set(BoardModel.positionToKey(placement.position), placedTile);
     }
