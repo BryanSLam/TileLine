@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { GameState, GamePhase, Player, PlayerConfig, BoardState } from '../types';
 import { TileFactory } from './TileFactory';
+import { getPlayerColor } from '../utils/playerColors';
 
 export class GameInitializer {
   private static readonly INITIAL_HAND_SIZE = 6;
@@ -28,7 +29,8 @@ export class GameInitializer {
         type: config.type,
         score: 0,
         hand: drawn,
-        isActive: index === 0 // First player is active
+        isActive: index === 0, // First player is active
+        color: getPlayerColor(index)
       };
     });
 
@@ -51,7 +53,8 @@ export class GameInitializer {
       tileBag: remainingTiles,
       pendingPlacements: [],
       lastScoredPoints: 0,
-      gameHistory: []
+      gameHistory: [],
+      turnNumber: 0
     };
   }
 
