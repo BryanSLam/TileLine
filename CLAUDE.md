@@ -17,21 +17,29 @@ npm run test -- --ui           # Run tests with UI
 npm run test -- path/to/file   # Run specific test file
 ```
 
+**IMPORTANT: UI Testing Requirements**
+- **Always start `npm run dev`** before testing UI changes
+- **Always use Playwright MCP browser tools** to validate UI changes in the actual browser
+- **Never rely on source code inspection alone** - the rendered app is the source of truth
+- See "Running and Testing the Project" section below for detailed UI testing workflow
+
 ## Multi-Instance Development with Worktrees
 
-When multiple Claude Code instances need to work on the same feature simultaneously, use git worktrees to prevent conflicts. See `.claude/MULTI-INSTANCE-WORKFLOW.md` for detailed workflow.
+When multiple Claude Code instances need to work on the same feature, use git worktrees. **One worktree per feature** - all agents working on that feature use the same worktree directory.
+
+See `.claude/MULTI-INSTANCE-WORKFLOW.md` for detailed workflow.
 
 **Quick reference:**
-- Architect creates feature branch, pushes to origin, then creates worktrees
-- Each worktree has its own local branch tracking the same remote feature branch
-- Command: `git worktree add <path> -b <local-branch> origin/<feature-branch>`
+- Architect creates feature branch, pushes to origin, then creates ONE worktree for the feature
+- Command: `git worktree add ../qwirkle-worktrees/<feature-name> feature/<feature-name>`
+- All agents cd into the same worktree: `cd /Users/blam/git/test/qwirkle-worktrees/<feature-name>`
 - Agents pull frequently: `git pull`
-- Agents push with: `git push origin HEAD:<feature-branch>`
-- Cleanup worktrees after feature completion
+- Agents push with: `git push`
+- Cleanup worktree after feature merged: `git worktree remove ../qwirkle-worktrees/<feature-name>`
 
 **Worktree locations:**
-- Main workspace: `/Users/blam/git/test/qwirkle/` (architect)
-- Agent worktrees: `/Users/blam/git/test/qwirkle-worktrees/{agent-name}/`
+- Main workspace: `/Users/blam/git/test/qwirkle/` (architect coordinates here)
+- Feature worktrees: `/Users/blam/git/test/qwirkle-worktrees/{feature-name}/` (all agents for that feature)
 
 ## Architecture Overview
 
@@ -237,7 +245,87 @@ To improve AI:
 3. Access state via `useGameStore` hooks
 4. Keep components focused - extract complex logic to hooks
 
-## Testing Strategy
+## Running and Testing the Project
+
+### Starting the Development Server
+
+**ALWAYS start the dev server before UI testing:**
+
+```bash
+# Start the dev server (runs on http://localhost:5173)
+npm run dev
+
+# In a separate terminal or run in background:
+npm run dev &
+```
+
+The server must be running before you can test UI changes in the browser.
+
+### UI Interaction Model
+
+**This is a point-and-click web application with drag-and-drop:**
+- Users click tiles in their hand to select them
+- Users drag tiles from hand to board cells
+- Users click "Confirm" to commit moves
+- The game uses `react-dnd` for drag-and-drop interactions
+- All interactions are mouse-driven (no keyboard shortcuts)
+
+**NEVER attempt to test the UI by reading source files alone** - the rendered application is the source of truth.
+
+### UI Testing with Playwright
+
+**CRITICAL: Always use Playwright MCP browser tools for UI validation.**
+
+When you make UI changes, you MUST validate them in the browser before presenting results:
+
+```typescript
+// 1. Start dev server (if not already running)
+npm run dev &
+
+// 2. Use Playwright MCP tools to interact with the browser:
+// - mcp__playwright__browser_navigate: Navigate to http://localhost:5173
+// - mcp__playwright__browser_snapshot: Get accessibility tree of current page
+// - mcp__playwright__browser_click: Click buttons, tiles, cells
+// - mcp__playwright__browser_take_screenshot: Capture visual state
+// - mcp__playwright__browser_run_code: Execute custom Playwright scripts
+```
+
+**Testing Workflow:**
+1. Navigate to `http://localhost:5173`
+2. Take a snapshot to see the page structure
+3. Click "Start Game" to begin
+4. Take screenshots to verify visual changes
+5. Interact with the game (click tiles, drag to board, click confirm)
+6. Verify the changes work as expected
+
+**Example UI Test Sequence:**
+```javascript
+// Navigate to game
+mcp__playwright__browser_navigate: http://localhost:5173
+
+// Start a game
+mcp__playwright__browser_click: "Start Game" button
+
+// Take screenshot to verify initial state
+mcp__playwright__browser_take_screenshot: game_initial.png
+
+// Select a tile by clicking it
+mcp__playwright__browser_click: first tile in hand
+
+// Take screenshot to verify selection
+mcp__playwright__browser_take_screenshot: tile_selected.png
+
+// Verify the visual changes appear correctly
+```
+
+**Common UI Testing Patterns:**
+- **Visual verification**: Use screenshots to verify colors, borders, animations
+- **Interaction testing**: Click buttons, select tiles, confirm moves
+- **State changes**: Verify player turns, scores, game log updates
+- **Multi-player flows**: Test with 2-4 players, human and AI
+- **Responsive design**: Test on different viewport sizes
+
+### Unit Testing with Vitest
 
 Currently tests are configured with Vitest but no test files exist in src/.
 
@@ -247,7 +335,10 @@ When adding tests:
 - Use fixtures for complex game states
 - AI move generation should be deterministic for testing
 
-When validating UI changes use the Playwright MCP tool to open a browser to validate UI changes before presenting the result to the user.
+```bash
+npm run test         # Run all tests
+npm run test -- --ui # Run with UI
+```
 
 ## Known Implementation Notes
 
