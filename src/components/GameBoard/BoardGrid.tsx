@@ -4,6 +4,7 @@ import { useGameStore } from '../../store/gameStore';
 import { useUIPreferencesStore } from '../../store/uiPreferencesStore';
 import { BoardCell } from './BoardCell';
 import styles from './BoardGrid.module.css';
+import { PlayerColor } from '../../types/Player';
 
 interface BoardGridProps {
   board: BoardState;
@@ -12,9 +13,13 @@ interface BoardGridProps {
 
 export function BoardGrid({ board, pendingPlacements }: BoardGridProps) {
   const validPositions = useGameStore(state => state.getValidPositions());
+  const gameState = useGameStore(state => state.gameState);
   const showPlacementHints = useUIPreferencesStore(
     (state) => state.preferences.showPlacementHints
   );
+
+  // Calculate the highest turn number (most recent move)
+  const lastTurnNumber = gameState.turnNumber - 1;
 
   // Calculate visible bounds with padding
   const padding = 3;
@@ -50,6 +55,13 @@ export function BoardGrid({ board, pendingPlacements }: BoardGridProps) {
       const pending = pendingMap.get(key);
       const isValid = validPositionsSet.has(key);
 
+      // Determine if this tile is from the last move and get owner color
+      const isLastMove = placedTile ? placedTile.turnPlaced === lastTurnNumber : false;
+      let ownerPlayerColor: PlayerColor | undefined;
+      if (placedTile && placedTile.placedByPlayerIndex >= 0 && placedTile.placedByPlayerIndex < gameState.players.length) {
+        ownerPlayerColor = gameState.players[placedTile.placedByPlayerIndex].color;
+      }
+
       cells.push(
         <BoardCell
           key={key}
@@ -57,6 +69,8 @@ export function BoardGrid({ board, pendingPlacements }: BoardGridProps) {
           tile={pending ? { ...pending.tile, position, placedByPlayerIndex: -1, turnPlaced: -1 } : placedTile}
           isPending={!!pending}
           isValidPlacement={isValid}
+          isLastMove={isLastMove}
+          ownerPlayerColor={ownerPlayerColor}
         />
       );
     }
