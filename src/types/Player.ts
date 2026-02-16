@@ -5,6 +5,13 @@ export enum PlayerType {
   AI = 'ai'
 }
 
+export enum PlayerColor {
+  BLUE = 'blue',
+  RED = 'red',
+  GREEN = 'green',
+  YELLOW = 'yellow'
+}
+
 export interface Player {
   id: string;
   name: string;
@@ -12,6 +19,7 @@ export interface Player {
   score: number;
   hand: Tile[];
   isActive: boolean;
+  color: PlayerColor;
 }
 
 export interface PlayerConfig {

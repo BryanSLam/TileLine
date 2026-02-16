@@ -24,6 +24,8 @@ export interface Tile {
 
 export interface PlacedTile extends Tile {
   position: BoardPosition;
+  placedByPlayerIndex: number;
+  turnPlaced: number;
 }
 
 export interface BoardPosition {

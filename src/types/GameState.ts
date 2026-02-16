@@ -17,6 +17,7 @@ export interface GameState {
   pendingPlacements: PendingPlacement[];
   lastScoredPoints: number;
   gameHistory: GameHistoryEntry[];
+  turnNumber: number;
 }
 
 export interface GameHistoryEntry {
