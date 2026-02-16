@@ -7,10 +7,26 @@ interface PlayerInfoProps {
 }
 
 export function PlayerInfo({ player }: PlayerInfoProps) {
+  const playerColorStyle: React.CSSProperties = {
+    borderLeftColor: `var(--player-${player.color}-border)`,
+    borderLeftWidth: '4px',
+    borderLeftStyle: 'solid'
+  };
+
+  const colorDotStyle: React.CSSProperties = {
+    backgroundColor: `var(--player-${player.color})`
+  };
+
   return (
-    <div className={clsx(styles.container, { [styles.active]: player.isActive })}>
+    <div
+      className={clsx(styles.container, { [styles.active]: player.isActive })}
+      style={playerColorStyle}
+    >
       <div className={styles.header}>
-        <span className={styles.name}>{player.name}</span>
+        <div className={styles.nameWithColor}>
+          <span className={styles.colorDot} style={colorDotStyle} />
+          <span className={styles.name}>{player.name}</span>
+        </div>
         {player.type === 'ai' && <span className={styles.badge}>AI</span>}
       </div>
       <div className={styles.stats}>
