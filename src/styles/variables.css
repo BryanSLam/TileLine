@@ -33,6 +33,28 @@
   /* Transitions */
   --transition-fast: 150ms ease;
   --transition-normal: 250ms ease;
+
+  /* Player colors - accessibility optimized */
+  --player-color-1: #0077b6;         /* Blue */
+  --player-color-1-light: #d6ecf5;   /* Light blue background */
+  --player-color-1-border: #005f8f;  /* Darker blue border */
+
+  --player-color-2: #06a77d;         /* Green */
+  --player-color-2-light: #d4f4e8;   /* Light green background */
+  --player-color-2-border: #058260;  /* Darker green border */
+
+  --player-color-3: #e63946;         /* Red */
+  --player-color-3-light: #fdd9db;   /* Light red background */
+  --player-color-3-border: #c82333;  /* Darker red border */
+
+  --player-color-4: #7209b7;         /* Purple */
+  --player-color-4-light: #ead4f4;   /* Light purple background */
+  --player-color-4-border: #5a0790;  /* Darker purple border */
+
+  /* Last move highlight - golden glow */
+  --last-move-glow: #ffd700;         /* Gold */
+  --last-move-glow-light: rgba(255, 215, 0, 0.2); /* Transparent gold */
+  --last-move-shadow: 0 0 8px rgba(255, 215, 0, 0.6); /* Gold shadow */
 }
 
 /* Mobile-specific values */
